@@ -61,8 +61,9 @@ def load_imgs():
 
             print "DBG:", csv_path
             rows = cm.fetch_csv_data(csv_path)
-            print len(rows), frame_count
-            assert frame_count == len(rows)
+            print len(rows)
+            #print len(rows), frame_count
+            #assert frame_count == len(rows)
 
             #yy = [[float(row['wheel'])] for row in rows]
 
@@ -84,10 +85,13 @@ def load_imgs():
                 img_path = row['img']
 
                 ############ using opencv to read img here
+                img_path = cm.jn(data_dir, 'data{}/{}'.format(epoch_id, img_path))
+                if not os.path.isfile(img_path):
+                    continue
                 img = cv2.imread(img_path)
 
                 ########### do resize if needed, e.g. cv2.resizeWindow('image', 600,600)
-                
+
                 img = preprocess.preprocess(img)
                 imgs[p].append(img)
                 wheels[p].append(yy)
@@ -123,8 +127,8 @@ def categorize_imgs():
         n = len(imgs[p])
 
         for i in range(n):
-            # print 'wheels[{}][{}]:{}'.format(p, i, wheels[p][i])
-            if abs(wheels[p][i][0]) < 0.001:
+            print 'wheels[{}][{}]:{}'.format(p, i, wheels[p][i])
+            if abs(wheels[p][i]) < 0.001:
                 imgs_cat[p]['center'].append(imgs[p][i])
                 wheels_cat[p]['center'].append(wheels[p][i])
             else:
@@ -142,6 +146,7 @@ def load_batch_category_normal(purpose):
     for c in categories:
         n = len(imgs_cat[p][c])
         assert n > 0
+        print n, int(params.batch_size/nc)
         ii = random.sample(xrange(0, n), int(params.batch_size/nc))
         assert len(ii) == int(params.batch_size/nc)
         for i in ii:
