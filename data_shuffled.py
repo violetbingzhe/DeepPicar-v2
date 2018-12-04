@@ -45,38 +45,54 @@ def load_imgs():
                 p, epoch_id, len(imgs[p]))
 
             # vid_path = cm.jn(data_dir, 'epoch{:0>2}_front.mkv'.format(epoch_id))
-            vid_path = cm.jn(data_dir, 'out-video-{}.avi'.format(epoch_id))
+            #vid_path = cm.jn(data_dir, 'out-video-{}.avi'.format(epoch_id))
 
-            print "DBG:", vid_path
-            assert os.path.isfile(vid_path)
+            #print "DBG:", vid_path
+            #assert os.path.isfile(vid_path)
 
-            frame_count = cm.frame_count(vid_path)
-            print "DBG:", frame_count
+            #frame_count = cm.frame_count(vid_path)
+            #print "DBG:", frame_count
 
-            cap = cv2.VideoCapture(vid_path)
+            #cap = cv2.VideoCapture(vid_path)
 
             # csv_path = cm.jn(data_dir, 'epoch{:0>2}_steering.csv'.format(epoch_id))
-            csv_path = cm.jn(data_dir, 'out-key-{}.csv'.format(epoch_id))
+            csv_path = cm.jn(data_dir, 'data{}/output.txt'.format(epoch_id))
             assert os.path.isfile(csv_path)
 
             print "DBG:", csv_path
             rows = cm.fetch_csv_data(csv_path)
             print len(rows), frame_count
             assert frame_count == len(rows)
-            yy = [[float(row['wheel'])] for row in rows]
 
-            while True:
-                ret, img = cap.read()
-                if not ret:
-                    break
+            #yy = [[float(row['wheel'])] for row in rows]
+
+            #while True:
+                #ret, img = cap.read()
+                #if not ret:
+                #    break
+
+                #img = preprocess.preprocess(img)
+               # imgs[p].append(img)
+
+            #wheels[p].extend(yy)
+            #assert len(imgs[p]) == len(wheels[p])
+
+            #cap.release()
+
+            for row in rows:
+                yy = float(row['wheel'])
+                img_path = row['img']
+
+                ############ using opencv to read img here
 
                 img = preprocess.preprocess(img)
                 imgs[p].append(img)
+                wheels[p].append(yy)
+           
 
-            wheels[p].extend(yy)
             assert len(imgs[p]) == len(wheels[p])
 
-            cap.release()
+           
 
 def load_batch(purpose):
     p = purpose
