@@ -84,7 +84,10 @@ def load_imgs():
                 img_path = row['img']
 
                 ############ using opencv to read img here
+                img = cv2.imread(img_path)
 
+                ########### do resize if needed, e.g. cv2.resizeWindow('image', 600,600)
+                
                 img = preprocess.preprocess(img)
                 imgs[p].append(img)
                 wheels[p].append(yy)
