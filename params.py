@@ -35,7 +35,7 @@ model_save_file=model_load_file
 ##########################################################
 # Training options
 ##########################################################
-batch_size = 100
+batch_size = 2
 training_steps = 2000
 img_height = 66
 img_width = 200

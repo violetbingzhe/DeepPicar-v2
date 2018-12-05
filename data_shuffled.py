@@ -61,7 +61,7 @@ def load_imgs():
 
             print "DBG:", csv_path
             rows = cm.fetch_csv_data(csv_path)
-            print len(rows)
+            # print len(rows)
             #print len(rows), frame_count
             #assert frame_count == len(rows)
 
@@ -81,6 +81,7 @@ def load_imgs():
             #cap.release()
 
             for row in rows:
+                # print row
                 yy = float(row['wheel'])
                 img_path = row['img']
 
@@ -99,23 +100,6 @@ def load_imgs():
 
             assert len(imgs[p]) == len(wheels[p])
 
-           
-
-def load_batch(purpose):
-    p = purpose
-    assert len(imgs[p]) == len(wheels[p])
-    n = len(imgs[p])
-    assert n > 0
-
-    ii = random.sample(xrange(0, n), params.batch_size)
-    assert len(ii) == params.batch_size
-
-    xx, yy = [], []
-    for i in ii:
-        xx.append(imgs[p][i])
-        yy.append(wheels[p][i])
-
-    return xx, yy
 
 def categorize_imgs():
     global imgs
@@ -139,23 +123,49 @@ def categorize_imgs():
         for c in categories:
             print '# {} imgs: {}'.format(c, len(imgs_cat[p][c]))
 
+    # print "finish categorize"
+
+def load_batch(purpose):
+    p = purpose
+    print 
+    assert len(imgs[p]) == len(wheels[p])
+    n = len(imgs[p])
+    assert n > 0
+
+    ii = random.sample(xrange(0, n), params.batch_size)
+    assert len(ii) == params.batch_size
+
+    xx, yy = [], []
+    for i in ii:
+        xx.append(imgs[p][i])
+        yy.append(wheels[p][i])
+
+    return xx, yy
+
+
 def load_batch_category_normal(purpose):
+    # print "enter load_batch"
     p = purpose
     xx, yy = [], []
     nc = len(categories)
+    # print categories
+    # print imgs_cat
     for c in categories:
         n = len(imgs_cat[p][c])
+        # print n
         assert n > 0
-        print n, int(params.batch_size/nc)
+        # print n, int(params.batch_size/nc)
         ii = random.sample(xrange(0, n), int(params.batch_size/nc))
         assert len(ii) == int(params.batch_size/nc)
         for i in ii:
             xx.append(imgs_cat[p][c][i])
-            yy.append(wheels_cat[p][c][i])
-
+            yy.append([wheels_cat[p][c][i]])
+    # print "finish load_batch"
     return xx, yy
 
 if __name__ == '__main__':
     load_imgs()
 
-    load_batch()
+    load_batch('train')
+    categorize_imgs()
+    load_batch_category_normal('val')

@@ -238,6 +238,7 @@ def fetch_csv_data(filepath, delimiter=',', consider_only_a_sample=False, univ_n
         fields = None
         
         for row in reader:
+            # print row
             row_counter += 1
             #if row_counter % 1000 == 0: print 'loaded {} rows'.format(row_counter)
             
@@ -253,6 +254,9 @@ def fetch_csv_data(filepath, delimiter=',', consider_only_a_sample=False, univ_n
                 print 'row:', row
                                     
             assert len(fields) == len(row)
+            # print 'fields:', fields
+            # print 'row:', row
+            # print zip(fields, row)
 
             # remove fields not in 'include_only_these_fields' if it's defined
             if include_only_these_fields is None:

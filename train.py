@@ -60,6 +60,9 @@ for i in xrange(params.training_steps):
     else:
         txx, tyy = data.load_batch('train')
 
+    # print "txx: ", len(txx), len(txx[0]), len(txx[0][0]),  len(txx[0][0][0])
+    # print "tyy: ", tyy
+
     train_step.run(feed_dict={model.x: txx, model.y_: tyy})
 
     # write logs at every iteration
