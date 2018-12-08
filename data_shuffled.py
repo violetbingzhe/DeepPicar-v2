@@ -9,6 +9,7 @@ import cv2
 import params
 import preprocess
 import local_common as cm
+import numpy as np
 
 ################ parameters ###############
 data_dir = params.data_dir
@@ -40,20 +41,11 @@ def load_imgs():
     global wheels
 
     for p in purposes:
+        print p
         for epoch_id in epochs[p]:
             print 'processing and loading "{}" epoch {} into memory, current num of imgs is {}...'.format(
                 p, epoch_id, len(imgs[p]))
 
-            # vid_path = cm.jn(data_dir, 'epoch{:0>2}_front.mkv'.format(epoch_id))
-            #vid_path = cm.jn(data_dir, 'out-video-{}.avi'.format(epoch_id))
-
-            #print "DBG:", vid_path
-            #assert os.path.isfile(vid_path)
-
-            #frame_count = cm.frame_count(vid_path)
-            #print "DBG:", frame_count
-
-            #cap = cv2.VideoCapture(vid_path)
 
             # csv_path = cm.jn(data_dir, 'epoch{:0>2}_steering.csv'.format(epoch_id))
             csv_path = cm.jn(data_dir, 'data{}/output.txt'.format(epoch_id))
@@ -61,24 +53,10 @@ def load_imgs():
 
             print "DBG:", csv_path
             rows = cm.fetch_csv_data(csv_path)
+
             # print len(rows)
             #print len(rows), frame_count
             #assert frame_count == len(rows)
-
-            #yy = [[float(row['wheel'])] for row in rows]
-
-            #while True:
-                #ret, img = cap.read()
-                #if not ret:
-                #    break
-
-                #img = preprocess.preprocess(img)
-               # imgs[p].append(img)
-
-            #wheels[p].extend(yy)
-            #assert len(imgs[p]) == len(wheels[p])
-
-            #cap.release()
 
             for row in rows:
                 # print row
@@ -91,13 +69,32 @@ def load_imgs():
                     continue
                 img = cv2.imread(img_path)
 
-                ########### do resize if needed, e.g. cv2.resizeWindow('image', 600,600)
+                ########### doing data augmentation
 
-                img = preprocess.preprocess(img)
-                imgs[p].append(img)
-                wheels[p].append(yy)
-           
+                # move along height of photo
+                for i in range(-2,3,1):
+                    i *= 2
 
+                    # move along width of photo
+                    for j in range(-2,3,1):
+                        j *= 2
+                        crop = img[40+i:200+i, 50+j:270+j]
+
+                        # resize to 200*66
+                        rsz = cv2.resize(crop, (200, 66))
+                        imgs[p].append(rsz)
+                        wheels[p].append(yy)
+
+                        # flip image and add again
+                        flip =  np.flip(rsz,1)
+                        imgs[p].append(flip)
+                        wheels[p].append(-yy)
+
+                # img = preprocess.preprocess(img)
+                # imgs[p].append(img)
+                # wheels[p].append(yy)
+            print "wheels"
+            print wheels
             assert len(imgs[p]) == len(wheels[p])
 
 
@@ -142,7 +139,7 @@ def load_batch(purpose):
 
     return xx, yy
 
-
+# requires each category to be non-empty
 def load_batch_category_normal(purpose):
     # print "enter load_batch"
     p = purpose
