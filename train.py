@@ -85,6 +85,7 @@ for i in xrange(params.training_steps):
             os.makedirs(params.save_dir)
         checkpoint_path = os.path.join(params.save_dir, params.model_save_file)
         filename = saver.save(sess, checkpoint_path)
+        print checkpoint_path, filename, "<------"
 
         time_passed = cm.pretty_running_time(time_start)
         time_left = cm.pretty_time_left(time_start, i, params.training_steps)
