@@ -85,6 +85,7 @@ def load_imgs():
 
                         # resize to 200*66
                         rsz = cv2.resize(crop, (200, 66))
+                        rsz = rsz / 255.
                         imgs[p].append(rsz)
                         wheels[p].append(yy)
 
