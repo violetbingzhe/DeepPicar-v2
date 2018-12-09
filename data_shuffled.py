@@ -61,6 +61,7 @@ def load_imgs():
             for row in rows:
                 # print row
                 yy = float(row['wheel'])
+                yy = yy / 22500.
                 img_path = row['img']
 
                 ############ using opencv to read img here
