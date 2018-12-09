@@ -21,7 +21,7 @@ sess = tf.InteractiveSession()
 loss = tf.reduce_mean(tf.square(tf.subtract(model.y_, model.y)))
 # loss = tf.reduce_mean(tf.square(tf.sub(model.y_, model.y)))
 #         + tf.add_n([tf.nn.l2_loss(v) for v in train_vars]) * L2NormConst
-train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
+train_step = tf.train.AdamOptimizer(1e-2).minimize(loss)
 
 saver = tf.train.Saver()
 
