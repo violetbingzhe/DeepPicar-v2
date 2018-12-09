@@ -35,14 +35,14 @@ model_save_file=model_load_file
 ##########################################################
 # Training options
 ##########################################################
-batch_size = 2
+batch_size = 100
 training_steps = 2000
 img_height = 66
 img_width = 200
 img_channels = 3
 write_summary = True
 shuffle_training = True 
-use_category_normal = True # if ture, center/curve images
+use_category_normal = False # if ture, center/curve images
                            # are equally selected.
 use_picar_mini = True # visualization fix for picar mini
 

@@ -52,7 +52,7 @@ if params.shuffle_training:
     data.load_imgs()
 
 # center, curve 50:50%
-data.categorize_imgs()
+# data.categorize_imgs()
 
 for i in xrange(params.training_steps):
     if params.use_category_normal:

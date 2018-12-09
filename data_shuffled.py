@@ -7,7 +7,7 @@ import sys
 from collections import OrderedDict
 import cv2
 import params
-import preprocess
+# import preprocess
 import local_common as cm
 import numpy as np
 
@@ -72,11 +72,12 @@ def load_imgs():
                 ########### doing data augmentation
 
                 # move along height of photo
-                for i in range(-2,3,1):
+                # for i in range(-2,3,1):
+                for i in range(-1,1,1):
                     i *= 2
 
                     # move along width of photo
-                    for j in range(-2,3,1):
+                    for j in range(-1,1,1):
                         j *= 2
                         crop = img[40+i:200+i, 50+j:270+j]
 
@@ -93,8 +94,8 @@ def load_imgs():
                 # img = preprocess.preprocess(img)
                 # imgs[p].append(img)
                 # wheels[p].append(yy)
-            print "wheels"
-            print wheels
+            # print "wheels"
+            # print wheels
             assert len(imgs[p]) == len(wheels[p])
 
 
@@ -124,7 +125,6 @@ def categorize_imgs():
 
 def load_batch(purpose):
     p = purpose
-    print 
     assert len(imgs[p]) == len(wheels[p])
     n = len(imgs[p])
     assert n > 0
@@ -135,7 +135,7 @@ def load_batch(purpose):
     xx, yy = [], []
     for i in ii:
         xx.append(imgs[p][i])
-        yy.append(wheels[p][i])
+        yy.append([wheels[p][i]])
 
     return xx, yy
 
