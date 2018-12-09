@@ -59,8 +59,8 @@ if not os.path.isdir(out_dir):
     os.makedirs(out_dir)
 
 epochs = OrderedDict()
-#epochs['train'] = [1,3,5,7,9,11] 
-#epochs['val']   = [2,4,6,8,10]
-epochs['train'] = [1] 
-epochs['val'] = [4] 
+epochs['train'] = [1,3,5,7,9,11] 
+epochs['val']   = [2,4,6,8,10]
+# epochs['train'] = [1] 
+# epochs['val'] = [4] 
 
