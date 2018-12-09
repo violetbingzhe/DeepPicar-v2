@@ -73,11 +73,13 @@ def load_imgs():
 
                 # move along height of photo
                 # for i in range(-2,3,1):
-                for i in range(-1,1,1):
+                # for i in range(-1,2,1):
+                for i in range(1):
                     i *= 2
 
                     # move along width of photo
-                    for j in range(-1,1,1):
+                    # for j in range(-1,2,1):
+                    for j in range(1):
                         j *= 2
                         crop = img[40+i:200+i, 50+j:270+j]
 
