@@ -73,29 +73,30 @@ def load_imgs():
 
                 # move along height of photo
                 # for i in range(-2,3,1):
-                for i in range(-1,1,1):
-                    i *= 2
+                # for i in range(-1,1,1):
+                #     i *= 2
 
-                    # move along width of photo
-                    for j in range(-1,1,1):
-                        j *= 2
-                        crop = img[40+i:200+i, 50+j:270+j]
+                #     # move along width of photo
+                #     for j in range(-1,1,1):
+                #         j *= 2
+                #         crop = img[40+i:200+i, 50+j:270+j]
 
-                        # resize to 200*66
-                        rsz = cv2.resize(crop, (200, 66))
-                        imgs[p].append(rsz)
-                        wheels[p].append(yy)
+                #         # resize to 200*66
+                #         rsz = cv2.resize(crop, (200, 66))
+                #         imgs[p].append(rsz)
+                #         wheels[p].append(yy)
 
-                        # flip image and add again
-                        flip =  np.flip(rsz,1)
-                        imgs[p].append(flip)
-                        wheels[p].append(-yy)
+                #         # flip image and add again
+                #         flip =  np.flip(rsz,1)
+                #         imgs[p].append(flip)
+                #         wheels[p].append(-yy)
 
                 # img = preprocess.preprocess(img)
-                # imgs[p].append(img)
-                # wheels[p].append(yy)
+                imgs[p].append(img)
+                wheels[p].append(yy)
             # print "wheels"
             # print wheels
+            print len(imgs[p])
             assert len(imgs[p]) == len(wheels[p])
 
 

@@ -7,12 +7,9 @@ import csv
 # # change clockwise data 
 input_raw = []
 
-with open('./train_data/output.txt') as file:
+with open('/home/chenjiyang/irobot_lab_example/data/validation_data/output.txt') as file:
 	csv_reader = csv.reader(file, delimiter=',')
 	for row in csv_reader:
-		# print row
-		row[1] = int(row[1]) - 1800
-		# print row
 		input_raw.append(row)
 
 
@@ -21,16 +18,17 @@ input_raw.pop(0)
 output_txt = []
 
 for row in input_raw:
-    img = cv2.imread('./train_data/'+row[0])
+    img = cv2.imread('/home/chenjiyang/irobot_lab_example/data/validation_data/'+row[0])
 
     # move along height of photo
     # for i in range(-2,3,1):
     count = 0
-    for i in range(-1,1,1):
+    for i in range(1):
         i *= 2
 
         # move along width of photo
-        for j in range(-1,1,1):
+        for j in range(-1,2,1):
+        # for j in range(1):
             j *= 2
             crop = img[40+i:200+i, 50+j:270+j]
 
@@ -39,7 +37,7 @@ for row in input_raw:
 
             img_new_name = row[0][:-4] + '_' + str(count) + '.jpg'# len('.jpg') = -4
             
-            cv2.imwrite('./data1/' + img_new_name, res)
+            cv2.imwrite('./data4/' + img_new_name, rsz)
             output_txt.append([img_new_name, row[1]])
 
             count += 1
@@ -48,12 +46,12 @@ for row in input_raw:
 
             img_new_name = row[0][:-4] + '_' + str(count) + '.jpg'# len('.jpg') = -4
 
-            cv2.imwrite('./data1/' + img_new_name, flip)
+            cv2.imwrite('./data4/' + img_new_name, flip)
             output_txt.append([img_new_name, row[1]])
             count += 1
 
 
-with open('./data1/output.txt', mode = 'wb') as file:
+with open('./data4/output.txt', mode = 'wb') as file:
   csv_writer = csv.writer(file, delimiter=',')
   csv_writer.writerow(["img","wheel"])
   for row in output_txt:
