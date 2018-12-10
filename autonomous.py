@@ -109,31 +109,31 @@ try:
 
 
             if x > LEFT_Stick_X_MID + DEADZONE_RADIUS:
-                    if x > LEFT_Stick_X_MAX:
-                        x = LEFT_Stick_X_MAX
+                if x > LEFT_Stick_X_MAX:
+                    x = LEFT_Stick_X_MAX
 
-                    r = -2000 + int((x - DEADZONE_RADIUS - LEFT_Stick_X_MID) / (LEFT_Stick_X_MAX - DEADZONE_RADIUS - LEFT_Stick_X_MID) * (2000 - 100))
-                    
-#                    print "radius: " + str(r)
-                    if r > -100:
-                        r = -100
+                r = -2000 + int((x - DEADZONE_RADIUS - LEFT_Stick_X_MID) / (LEFT_Stick_X_MAX - DEADZONE_RADIUS - LEFT_Stick_X_MID) * (2000 - 100))
+                
+                # print "radius: " + str(r)
+                if r > -100:
+                    r = -100
 
-                    drive(s, speed, r)
+                drive(s, speed, r)
 
-                elif x < LEFT_Stick_X_MID - DEADZONE_RADIUS:
-                    if x < LEFT_Stick_X_MIN:
-                        x = LEFT_Stick_X_MIN
+            elif x < LEFT_Stick_X_MID - DEADZONE_RADIUS:
+                if x < LEFT_Stick_X_MIN:
+                    x = LEFT_Stick_X_MIN
 
-                    r = 100 + int((x - LEFT_Stick_X_MIN) / (LEFT_Stick_X_MID - DEADZONE_RADIUS - LEFT_Stick_X_MIN) * (2000 - 100))
+                r = 100 + int((x - LEFT_Stick_X_MIN) / (LEFT_Stick_X_MID - DEADZONE_RADIUS - LEFT_Stick_X_MIN) * (2000 - 100))
 
-#                    print "radius: " + str(r)
-                    if r > 2000:
-                        r = 2000
+                # print "radius: " + str(r)
+                if r > 2000:
+                    r = 2000
 
-                    drive(s, speed, r)
-                else:
-                    
-                    drive(s, speed, OPCODE_DRIVE_STRAIGHT)
+                drive(s, speed, r)
+            else:
+                
+                drive(s, speed, OPCODE_DRIVE_STRAIGHT)
 
             print "radius is ", r
             rawCapture.truncate(0)
