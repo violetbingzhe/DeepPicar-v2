@@ -90,7 +90,8 @@ try:
             angle = model.y.eval(feed_dict={model.x: [rsz]})[0][0]
 
             print "angle is ", angle
-
+            rawCapture.truncate(0)
+            
             time.sleep(0.1)
 
 finally:
