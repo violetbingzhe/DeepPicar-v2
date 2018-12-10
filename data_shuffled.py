@@ -62,6 +62,14 @@ def load_imgs():
                 # print row
                 yy = float(row['wheel'])
                 yy = yy / 22500.
+
+                if yy > 0.5:
+                    yy = 0.5
+                elif yy < -0.5:
+                    yy = -0.5
+                else:
+                    yy = 0
+                    
                 img_path = row['img']
 
                 ############ using opencv to read img here
