@@ -2,8 +2,8 @@ from __future__ import division
 import socket
 import time
 import picamera
-from evdev import InputDevice, categorize, ecodes
-from threading import Thread, Lock
+# from evdev import InputDevice, categorize, ecodes
+# from threading import Thread, Lock
 import serial
 import cv2
 import tensorflow as tf
@@ -59,11 +59,7 @@ print("switch to full mode...")
 s.write(ints2str([132]))
 speed = 60
 
-drive(s, speed, OPCODE_DRIVE_STRAIGHT)
-
-
-
-
+# drive(s, speed, OPCODE_DRIVE_STRAIGHT)
 
 try:
     with picamera.PiCamera() as camera:
@@ -75,17 +71,17 @@ try:
 
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-			# grab the raw NumPy array representing the image, then initialize the timestamp
-			# and occupied/unoccupied text
-			img = frame.array
+            # grab the raw NumPy array representing the image, then initialize the timestamp
+            # and occupied/unoccupied text
+            img = frame.array
 
-			crop = img[40:200, 50:270]
+            crop = img[40:200, 50:270]
 
             # resize to 200*66
             rsz = cv2.resize(crop, (200, 66))
             rsz = rsz / 255.
 
-        	angle = model.y.eval(feed_dict={model.x: [img]})[0][0]
+            angle = model.y.eval(feed_dict={model.x: [img]})[0][0]
 
             print "angle is ", angle
 
