@@ -63,8 +63,12 @@ def load_imgs():
                 yy = float(row['wheel'])
                 # yy = yy / 22500.
 
-                if yy > 10000:
+                if yy > 15000:
+                    yy = 0.75
+                elif yy > 10000:
                     yy = 0.5
+                elif yy < -15000:
+                    yy = -0.75
                 elif yy < -10000:
                     yy = -0.5
                 else:
