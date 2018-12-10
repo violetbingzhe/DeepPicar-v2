@@ -132,9 +132,9 @@ try:
 
                 drive(s, speed, r)
             else:
-                
+                r = 0
                 drive(s, speed, OPCODE_DRIVE_STRAIGHT)
-
+            
             print "radius is ", r
             rawCapture.truncate(0)
             
