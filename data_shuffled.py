@@ -61,16 +61,19 @@ def load_imgs():
             for row in rows:
                 # print row
                 yy = float(row['wheel'])
-                yy = yy / 22500.
+                # yy = yy / 22500.
 
-                if yy > 0.5:
+                if yy > 10000:
                     yy = 0.5
-                elif yy < -0.5:
+                elif yy < -10000:
                     yy = -0.5
                 else:
                     yy = 0
                     
                 img_path = row['img']
+                # print "img"
+                # print img_path
+                # print yy
 
                 ############ using opencv to read img here
                 img_path = cm.jn(data_dir, 'data{}/{}'.format(epoch_id, img_path))
@@ -108,7 +111,9 @@ def load_imgs():
                 # wheels[p].append(yy)
             # print "wheels"
             # print wheels
+            # print imgs[p][0]
             assert len(imgs[p]) == len(wheels[p])
+
 
 
 def categorize_imgs():
