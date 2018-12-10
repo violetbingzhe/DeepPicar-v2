@@ -25,14 +25,14 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
 
 saver = tf.train.Saver()
 
-model_load_path = cm.jn(params.save_dir, params.model_load_file)
-print model_load_path
-if os.path.exists(model_load_path + ".index"):
-    print ("Loading initial weights from %s" % model_load_path)
-    saver.restore(sess, model_load_path)
-else:
-    print ("Initialize weights.")
-    sess.run(tf.global_variables_initializer())
+# model_load_path = cm.jn(params.save_dir, params.model_load_file)
+# print model_load_path
+# if os.path.exists(model_load_path + ".index"):
+#     print ("Loading initial weights from %s" % model_load_path)
+#     saver.restore(sess, model_load_path)
+# else:
+#     print ("Initialize weights.")
+sess.run(tf.global_variables_initializer())
 
 # create a summary to monitor cost tensor
 if write_summary:
