@@ -17,6 +17,12 @@ import local_common as cm
 OPCODE_DRIVE = 137
 OPCODE_DRIVE_STRAIGHT = 32767
 
+LEFT_Stick_X_MAX = 60000
+LEFT_Stick_X_MIN = 8500 # 8600 seems to be safe as well
+LEFT_Stick_X_MID = 34250
+DEADZONE_RADIUS = 2000
+
+
 def ints2str(lst):
     '''
     Taking a list of notes/lengths, convert it to a string
@@ -79,6 +85,7 @@ try:
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             # grab the raw NumPy array representing the image, then initialize the timestamp
             # and occupied/unoccupied text
+            print "time: ", time.time()
             img = frame.array
 
             crop = img[40:200, 50:270]
@@ -90,6 +97,45 @@ try:
             angle = model.y.eval(feed_dict={model.x: [rsz]})[0][0]
 
             print "angle is ", angle
+
+
+            if angle >= 1:
+                angle = 1
+            elif angle <= -1:
+                angle = -1
+
+            x = angle * 22000 + 32800
+            print "x is ", x
+
+
+            if x > LEFT_Stick_X_MID + DEADZONE_RADIUS:
+                    if x > LEFT_Stick_X_MAX:
+                        x = LEFT_Stick_X_MAX
+
+                    r = -2000 + int((x - DEADZONE_RADIUS - LEFT_Stick_X_MID) / (LEFT_Stick_X_MAX - DEADZONE_RADIUS - LEFT_Stick_X_MID) * (2000 - 100))
+                    
+#                    print "radius: " + str(r)
+                    if r > -100:
+                        r = -100
+
+                    drive(s, speed, r)
+
+                elif x < LEFT_Stick_X_MID - DEADZONE_RADIUS:
+                    if x < LEFT_Stick_X_MIN:
+                        x = LEFT_Stick_X_MIN
+
+                    r = 100 + int((x - LEFT_Stick_X_MIN) / (LEFT_Stick_X_MID - DEADZONE_RADIUS - LEFT_Stick_X_MIN) * (2000 - 100))
+
+#                    print "radius: " + str(r)
+                    if r > 2000:
+                        r = 2000
+
+                    drive(s, speed, r)
+                else:
+                    
+                    drive(s, speed, OPCODE_DRIVE_STRAIGHT)
+
+            print "radius is ", r
             rawCapture.truncate(0)
             
             time.sleep(0.1)
