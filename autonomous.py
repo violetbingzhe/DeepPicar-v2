@@ -2,11 +2,13 @@ from __future__ import division
 import socket
 import time
 import picamera
+from picamera.array import PiRGBArray
 # from evdev import InputDevice, categorize, ecodes
 # from threading import Thread, Lock
 import serial
 import cv2
 import tensorflow as tf
+import params
 model = __import__(params.model)
 import local_common as cm
 
@@ -38,6 +40,7 @@ def drive (s, velocity, radius):
     s.write(ints2str(l))
 
 
+NCPU = 2
 
 print ("Load Model")
 config = tf.ConfigProto(intra_op_parallelism_threads=NCPU,
@@ -64,10 +67,13 @@ speed = 60
 try:
     with picamera.PiCamera() as camera:
         camera.resolution = (320, 240)
+        # camera.framerate = 32
+        rawCapture = PiRGBArray(camera, size=(320, 240))
         # camera.framerate = 24
         # Start a preview and let the camera warm up for 2 seconds
         camera.start_preview()
         time.sleep(2)
+
 
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -81,7 +87,7 @@ try:
             rsz = cv2.resize(crop, (200, 66))
             rsz = rsz / 255.
 
-            angle = model.y.eval(feed_dict={model.x: [img]})[0][0]
+            angle = model.y.eval(feed_dict={model.x: [rsz]})[0][0]
 
             print "angle is ", angle
 
