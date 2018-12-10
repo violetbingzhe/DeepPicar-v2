@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/jchen185/DeepPicar-v2/models/model-5conv_3fc-home_night.ckpt"
+all_model_checkpoint_paths: "/home/jchen185/DeepPicar-v2/models/model-5conv_3fc-home_night.ckpt"
