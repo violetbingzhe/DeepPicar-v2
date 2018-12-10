@@ -34,6 +34,10 @@ for p in purposes:
     for c in categories:
         imgs_cat[p][c] = []
         wheels_cat[p][c] = []
+
+def scale_down(yy, input_max, num):
+    bucket_size = (int)((2*input_max)/num)
+    return (int)(yy/bucket_size)*bucket_size
     
 # load all preprocessed training images into memory
 def load_imgs():
@@ -63,12 +67,9 @@ def load_imgs():
                 yy = float(row['wheel'])
                 # yy = yy / 22500.
 
-                if yy > 10000:
-                    yy = 0.5
-                elif yy < -10000:
-                    yy = -0.5
-                else:
-                    yy = 0
+                print yy, "before"
+                yy = 1.0*scale_down(yy, params.input_max, params.scale)/params.scale
+                print yy, "after ==="
                     
                 img_path = row['img']
                 # print "img"
