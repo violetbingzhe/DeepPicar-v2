@@ -1,0 +1,6 @@
+augmentation.py: used to augment collected data
+autonomous.py: used to load the trained model and drive the robot autonomously
+image_collect.py: used to collect data. No streaming over network. Just collect locally. 
+rename.py: rename file and folders
+split.py: randomly split training data
+train.py: used to train the model on NANO data center
